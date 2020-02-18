@@ -368,11 +368,10 @@ summary {
 
 <div id="gene-expression-decoding-analysis" class="section level1">
 <h1>Gene expression decoding analysis</h1>
-<pre class="r"><code>library(here)
+<pre class="r"><code>easypackages::libraries(&quot;here&quot;,&quot;knitr&quot;)
 code_dir = here(&quot;code&quot;)
 datapath = here(&quot;data&quot;)
 source(file.path(code_dir,&quot;genelistOverlap.R&quot;))
-
 
 
 genelistOverlap &lt;- function(list1,list2,backgroundTotal, print_result = TRUE, header = FALSE) {
@@ -476,110 +475,203 @@ genelistOverlap &lt;- function(list1,list2,backgroundTotal, print_result = TRUE,
 } # function genelistOverlap 
 
 
-
-
 backgroundTotal = 8075
-M10_NPC = as.character(read.delim(file.path(datapath,&quot;M10_NPC.txt&quot;), header=FALSE)$V1)
-M25_ASD = as.character(read.delim(file.path(datapath,&quot;M25.txt&quot;),header=FALSE)$V1)
+pm_mods = c(&quot;M1&quot;,&quot;M2&quot;,&quot;M3&quot;,&quot;M4&quot;,&quot;M5&quot;,&quot;M6&quot;,&quot;M7&quot;,&quot;M8&quot;,&quot;M9&quot;,&quot;M10&quot;,
+            &quot;M11&quot;,&quot;M12&quot;,&quot;M13&quot;,&quot;M14&quot;,&quot;M15&quot;,&quot;M16&quot;,&quot;M17&quot;,&quot;M18&quot;,&quot;M19&quot;,&quot;M20&quot;,
+            &quot;M21&quot;,&quot;M22&quot;,&quot;M23&quot;,&quot;M24&quot;,&quot;M25&quot;,&quot;M26&quot;,&quot;M27&quot;)
 
-res = genelistOverlap(list1=M10_NPC, list2=M25_ASD, backgroundTotal =8075)</code></pre>
-<pre><code>## [1] &quot;OR = 15.529813, p = 0.000000&quot;</code></pre>
-<pre class="r"><code>res</code></pre>
-<pre><code>## [[1]]
-## [[1]]$list1
-##   [1] &quot;POLR2J&quot;     &quot;FBXL3&quot;      &quot;TTC27&quot;      &quot;BAK1&quot;       &quot;RPL26L1&quot;   
-##   [6] &quot;AGA&quot;        &quot;MRPS10&quot;     &quot;RCN1&quot;       &quot;PIK3CB&quot;     &quot;YBX1&quot;      
-##  [11] &quot;RPL31&quot;      &quot;DYNC1I2&quot;    &quot;STRADB&quot;     &quot;BZW1&quot;       &quot;PPP1R15A&quot;  
-##  [16] &quot;RPL6&quot;       &quot;RPLP0&quot;      &quot;HSP90AB1&quot;   &quot;TECR&quot;       &quot;POLRMT&quot;    
-##  [21] &quot;RPL3&quot;       &quot;ST13&quot;       &quot;PSMC6&quot;      &quot;PIGH&quot;       &quot;PSMC1&quot;     
-##  [26] &quot;PSME2&quot;      &quot;SMS&quot;        &quot;PIN4&quot;       &quot;KCTD9&quot;      &quot;MED26&quot;     
-##  [31] &quot;RPS16&quot;      &quot;RPL18A&quot;     &quot;DNAJB6&quot;     &quot;PDAP1&quot;      &quot;RHEB&quot;      
-##  [36] &quot;EIF4H&quot;      &quot;GLRX3&quot;      &quot;UBE2S&quot;      &quot;RPL19&quot;      &quot;RPL34&quot;     
-##  [41] &quot;ANAPC15&quot;    &quot;GALNT18&quot;    &quot;RPS13&quot;      &quot;PTGES3&quot;     &quot;ARPC3&quot;     
-##  [46] &quot;GAPDH&quot;      &quot;TPI1&quot;       &quot;PHC1&quot;       &quot;RWDD1&quot;      &quot;MTRF1L&quot;    
-##  [51] &quot;RPS12&quot;      &quot;SKP1&quot;       &quot;ACTR8&quot;      &quot;RPL24&quot;      &quot;GNB4&quot;      
-##  [56] &quot;EEF1B2&quot;     &quot;RPS15&quot;      &quot;PDCL3&quot;      &quot;HSPE1&quot;      &quot;MARK1&quot;     
-##  [61] &quot;CACYBP&quot;     &quot;RPL22&quot;      &quot;CD58&quot;       &quot;STX12&quot;      &quot;RPS25&quot;     
-##  [66] &quot;SPCS2&quot;      &quot;ELL2&quot;       &quot;SET&quot;        &quot;OGFRL1&quot;     &quot;FAM45A&quot;    
-##  [71] &quot;ZNF706&quot;     &quot;RPL21&quot;      &quot;RPL5&quot;       &quot;NT5C3A&quot;     &quot;WWP1&quot;      
-##  [76] &quot;ATP5E&quot;      &quot;RPL23&quot;      &quot;SNRPB2&quot;     &quot;EIF2S2&quot;     &quot;COX7C&quot;     
-##  [81] &quot;RAP1B&quot;      &quot;UBE2M&quot;      &quot;EIF2S3&quot;     &quot;TUBG1&quot;      &quot;NDUFA2&quot;    
-##  [86] &quot;SNRPA1&quot;     &quot;RAN&quot;        &quot;MRPS36&quot;     &quot;CDK7&quot;       &quot;RPS15A&quot;    
-##  [91] &quot;RBMX2&quot;      &quot;ISCA1&quot;      &quot;HNRNPA1&quot;    &quot;PKIB&quot;       &quot;RAC1&quot;      
-##  [96] &quot;ANP32B&quot;     &quot;RPL35&quot;      &quot;RPLP1&quot;      &quot;SSB&quot;        &quot;OLA1&quot;      
-## [101] &quot;COX17&quot;      &quot;CPNE8&quot;      &quot;SNRPF&quot;      &quot;TDG&quot;        &quot;GCSH&quot;      
-## [106] &quot;RPS2&quot;       &quot;RPL13A&quot;     &quot;RPS8&quot;       &quot;SDHC&quot;       &quot;RAB13&quot;     
-## [111] &quot;RPS27A&quot;     &quot;SNRPG&quot;      &quot;HSPD1&quot;      &quot;RPL32&quot;      &quot;RPS3A&quot;     
-## [116] &quot;RNF145&quot;     &quot;NHP2&quot;       &quot;TLK2&quot;       &quot;RPL10&quot;      &quot;TERF1&quot;     
-## [121] &quot;RPL7&quot;       &quot;TATDN1&quot;     &quot;RPL7A&quot;      &quot;GLUD1&quot;      &quot;DGKZ&quot;      
-## [126] &quot;RPS3&quot;       &quot;TWF1&quot;       &quot;EIF4E&quot;      &quot;CCDC3&quot;      &quot;AHCTF1&quot;    
-## [131] &quot;NUS1&quot;       &quot;VOPP1&quot;      &quot;GTF3C6&quot;     &quot;LSM11&quot;      &quot;CCT8&quot;      
-## [136] &quot;EEF1A1&quot;     &quot;DHRS4&quot;      &quot;DDX19B&quot;     &quot;PSMD4&quot;      &quot;CSTB&quot;      
-## [141] &quot;MED27&quot;      &quot;UBQLN4&quot;     &quot;LSM12&quot;      &quot;RPL29&quot;      &quot;DIRAS3&quot;    
-## [146] &quot;CAPN2&quot;      &quot;H3F3A&quot;      &quot;TMEM183A&quot;   &quot;RYBP&quot;       &quot;RPL9&quot;      
-## [151] &quot;SLC35A1&quot;    &quot;RP9&quot;        &quot;FABP5&quot;      &quot;ALDH7A1&quot;    &quot;SUGT1&quot;     
-## [156] &quot;VDAC2&quot;      &quot;FUNDC2&quot;     &quot;BRD7&quot;       &quot;RPL27A&quot;     &quot;PDIA3&quot;     
-## [161] &quot;ATP5L&quot;      &quot;RPL13&quot;      &quot;ATP5H&quot;      &quot;RPSA&quot;       &quot;FILIP1L&quot;   
-## [166] &quot;NDUFS5&quot;     &quot;NPIPB3&quot;     &quot;ZRSR2&quot;      &quot;NFU1&quot;       &quot;FAM103A1&quot;  
-## [171] &quot;HNRNPA3&quot;    &quot;PA2G4&quot;      &quot;PGAM1&quot;      &quot;PPID&quot;       &quot;RPS7&quot;      
-## [176] &quot;MALT1&quot;      &quot;PAIP1&quot;      &quot;SUCLG2&quot;     &quot;TRMT112&quot;    &quot;MTX1&quot;      
-## [181] &quot;CKS1B&quot;      &quot;PPP1R14B&quot;   &quot;NUDT4&quot;      &quot;UQCRH&quot;      &quot;GNG5&quot;      
-## [186] &quot;RALGAPA1&quot;   &quot;RPL4&quot;       &quot;CHRNA7&quot;     &quot;EIF3F&quot;      &quot;CDC26&quot;     
-## [191] &quot;RPS27&quot;      &quot;CDH4&quot;       &quot;PPA1&quot;       &quot;NPM1&quot;       &quot;SNRPE&quot;     
-## [196] &quot;RWDD4&quot;      &quot;ANXA2&quot;      &quot;GTF2H2C&quot;    &quot;RPL23AP82&quot;  &quot;XPOT&quot;      
-## [201] &quot;TARSL2&quot;     &quot;UBE2L3&quot;     &quot;MORF4L1&quot;    &quot;NPIPB4&quot;     &quot;AIDA&quot;      
-## [206] &quot;TCEA1&quot;      &quot;PMS2CL&quot;     &quot;FBLL1&quot;      &quot;SUMO2&quot;      &quot;RPL14&quot;     
-## [211] &quot;NOC2L&quot;      &quot;NDUFA4&quot;     &quot;PPIA&quot;       &quot;FAM3C&quot;      &quot;FUT11&quot;     
-## [216] &quot;C1D&quot;        &quot;HIST1H4J&quot;   &quot;RPS26&quot;      &quot;ATAD3A&quot;     &quot;RPL12&quot;     
-## [221] &quot;RPL23A&quot;     &quot;RPL10A&quot;     &quot;GK&quot;         &quot;HMGN2&quot;      &quot;RPL39&quot;     
-## [226] &quot;RNF5&quot;       &quot;STK19&quot;      &quot;TMEM256&quot;    &quot;ETFRF1&quot;     &quot;RNPS1&quot;     
-## [231] &quot;DNAJC19&quot;    &quot;SNORA75&quot;    &quot;DNAJC9&quot;     &quot;VDAC1&quot;      &quot;NUTM2A-AS1&quot;
-## [236] &quot;MTND1P23&quot;   &quot;TSSK5P&quot;     &quot;LINC01128&quot;  &quot;RPL41&quot;      &quot;MTCO2P12&quot;  
-## [241] &quot;RPS18&quot;      &quot;RPS28&quot;      &quot;FAM133B&quot;    &quot;CCT6P3&quot;     &quot;MTCO1P12&quot;  
-## [246] &quot;RPL23AP7&quot;   &quot;MTATP8P1&quot;   &quot;ATP5J2&quot;     &quot;ATP5O&quot;      &quot;CDK11B&quot;    
-## [251] &quot;MTND6P4&quot;    &quot;SNHG9&quot;      &quot;MTRNR2L9&quot;  
-## 
-## [[1]]$list2
-##  [1] &quot;ATOX1&quot;    &quot;ATP5G2&quot;   &quot;C11orf10&quot; &quot;CALML4&quot;   &quot;CCDC90B&quot;  &quot;CNIH4&quot;   
-##  [7] &quot;COMMD6&quot;   &quot;CRIPT&quot;    &quot;DAD1&quot;     &quot;DLL3&quot;     &quot;EEF1B2&quot;   &quot;FAM96A&quot;  
-## [13] &quot;FAU&quot;      &quot;GTF2F2&quot;   &quot;MAD2L2&quot;   &quot;MYL6&quot;     &quot;NSMCE1&quot;   &quot;NUDT5&quot;   
-## [19] &quot;PFDN5&quot;    &quot;PIGF&quot;     &quot;POLR2F&quot;   &quot;POLR2G&quot;   &quot;POLR2I&quot;   &quot;POLR3GL&quot; 
-## [25] &quot;RPL10A&quot;   &quot;RPL12&quot;    &quot;RPL18A&quot;   &quot;RPL19&quot;    &quot;RPL21&quot;    &quot;RPL23&quot;   
-## [31] &quot;RPL23A&quot;   &quot;RPL26&quot;    &quot;RPL27A&quot;   &quot;RPL30&quot;    &quot;RPL31&quot;    &quot;RPL35A&quot;  
-## [37] &quot;RPL36&quot;    &quot;RPL37A&quot;   &quot;RPL39&quot;    &quot;RPL8&quot;     &quot;RPS11&quot;    &quot;RPS12&quot;   
-## [43] &quot;RPS13&quot;    &quot;RPS14&quot;    &quot;RPS15&quot;    &quot;RPS15A&quot;   &quot;RPS2&quot;     &quot;RPS20&quot;   
-## [49] &quot;RPS3&quot;     &quot;RPS4X&quot;    &quot;RPS5&quot;     &quot;RPS9&quot;     &quot;RWDD1&quot;    &quot;SEPW1&quot;   
-## [55] &quot;SNRPG&quot;    &quot;SULT2B1&quot;  &quot;TFPT&quot;     &quot;TMBIM4&quot;   &quot;UBA52&quot;    &quot;UBE2F&quot;   
-## [61] &quot;UXT&quot;     
-## 
-## [[1]]$backgroundTotal
-## [1] 8075
-## 
-## [[1]]$OR
-## [1] 15.52981
-## 
-## [[1]]$hypergeo_p
-## [1] 1.240735e-14
-## 
-## [[1]]$percent_overlap_list1
-## [1] 0.07509881
-## 
-## [[1]]$percent_overlap_list2
-## [1] 0.3114754
-## 
-## [[1]]$gene_overlap
-## [1] 19
-## 
-## [[1]]$ngenes1
-## [1] 253
-## 
-## [[1]]$ngenes2
-## [1] 61
-## 
-## [[1]]$overlapping_genes
-##  [1] &quot;RPL31&quot;  &quot;RPL18A&quot; &quot;RPL19&quot;  &quot;RPS13&quot;  &quot;RWDD1&quot;  &quot;RPS12&quot;  &quot;EEF1B2&quot; &quot;RPS15&quot; 
-##  [9] &quot;RPL21&quot;  &quot;RPL23&quot;  &quot;RPS15A&quot; &quot;RPS2&quot;   &quot;SNRPG&quot;  &quot;RPS3&quot;   &quot;RPL27A&quot; &quot;RPL12&quot; 
-## [17] &quot;RPL23A&quot; &quot;RPL10A&quot; &quot;RPL39&quot;</code></pre>
+cols2use = c(&quot;OR&quot;,&quot;pval&quot;)
+result = data.frame(matrix(nrow = length(pm_mods), ncol = length(cols2use)))
+rownames(result) = pm_mods
+colnames(result) = cols2use
+
+M10_NPC = as.character(read.delim(file.path(datapath,&quot;M10_NPC.txt&quot;), header=FALSE)$V1)
+
+for (mod in pm_mods){
+  pm_genes = as.character(read.delim(file.path(datapath,sprintf(&quot;%s.txt&quot;,mod)),header=FALSE)$V1)
+  res = genelistOverlap(list1 = M10_NPC, list2 = pm_genes, backgroundTotal =8075, print_result = FALSE)
+  result[mod,&quot;OR&quot;] = res[[1]]$OR  
+  result[mod,&quot;pval&quot;] = res[[1]]$hypergeo_p
+}
+result$fdrq = p.adjust(result$pval, method = &quot;fdr&quot;)
+kable(result)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">OR</th>
+<th align="right">pval</th>
+<th align="right">fdrq</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>M1</td>
+<td align="right">0.8293114</td>
+<td align="right">0.9206686</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td>M2</td>
+<td align="right">0.4320479</td>
+<td align="right">0.9999798</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td>M3</td>
+<td align="right">0.4008294</td>
+<td align="right">0.9999907</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td>M4</td>
+<td align="right">0.2187143</td>
+<td align="right">0.9998830</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td>M5</td>
+<td align="right">0.1881984</td>
+<td align="right">0.9997339</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td>M6</td>
+<td align="right">2.5103544</td>
+<td align="right">0.0008702</td>
+<td align="right">0.0117476</td>
+</tr>
+<tr class="odd">
+<td>M7</td>
+<td align="right">0.1202319</td>
+<td align="right">0.9997709</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td>M8</td>
+<td align="right">1.4466001</td>
+<td align="right">0.1829230</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td>M9</td>
+<td align="right">0.1471810</td>
+<td align="right">0.9989640</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td>M10</td>
+<td align="right">0.0000000</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td>M11</td>
+<td align="right">2.2974238</td>
+<td align="right">0.0096317</td>
+<td align="right">0.0866852</td>
+</tr>
+<tr class="even">
+<td>M12</td>
+<td align="right">0.1760523</td>
+<td align="right">0.9968578</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td>M13</td>
+<td align="right">0.1780979</td>
+<td align="right">0.9966463</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td>M14</td>
+<td align="right">0.1834215</td>
+<td align="right">0.9960537</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td>M15</td>
+<td align="right">0.6656224</td>
+<td align="right">0.8415083</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td>M16</td>
+<td align="right">0.2653061</td>
+<td align="right">0.9786947</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td>M17</td>
+<td align="right">0.0000000</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td>M18</td>
+<td align="right">0.2927322</td>
+<td align="right">0.9696071</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td>M19</td>
+<td align="right">0.0000000</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td>M20</td>
+<td align="right">0.3012094</td>
+<td align="right">0.9665179</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td>M21</td>
+<td align="right">0.0000000</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td>M22</td>
+<td align="right">0.7231981</td>
+<td align="right">0.7788179</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td>M23</td>
+<td align="right">1.6054217</td>
+<td align="right">0.2691614</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td>M24</td>
+<td align="right">0.4068478</td>
+<td align="right">0.9201174</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td>M25</td>
+<td align="right">15.5298128</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td>M26</td>
+<td align="right">0.0000000</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td>M27</td>
+<td align="right">1.7310219</td>
+<td align="right">0.3467052</td>
+<td align="right">1.0000000</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>result[&quot;M25&quot;,]</code></pre>
+<pre><code>##           OR         pval         fdrq
+## M25 15.52981 1.240735e-14 3.349985e-13</code></pre>
 </div>
 
 

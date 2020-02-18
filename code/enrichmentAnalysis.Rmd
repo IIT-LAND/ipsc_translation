@@ -6,11 +6,10 @@ output: html_document
 # Gene expression decoding analysis
 
 ```{r, warning=FALSE, message=FALSE}
-library(here)
+easypackages::libraries("here","knitr")
 code_dir = here("code")
 datapath = here("data")
 source(file.path(code_dir,"genelistOverlap.R"))
-
 
 
 genelistOverlap <- function(list1,list2,backgroundTotal, print_result = TRUE, header = FALSE) {
@@ -114,12 +113,25 @@ genelistOverlap <- function(list1,list2,backgroundTotal, print_result = TRUE, he
 } # function genelistOverlap 
 
 
-
-
 backgroundTotal = 8075
-M10_NPC = as.character(read.delim(file.path(datapath,"M10_NPC.txt"), header=FALSE)$V1)
-M25_ASD = as.character(read.delim(file.path(datapath,"M25.txt"),header=FALSE)$V1)
+pm_mods = c("M1","M2","M3","M4","M5","M6","M7","M8","M9","M10",
+            "M11","M12","M13","M14","M15","M16","M17","M18","M19","M20",
+            "M21","M22","M23","M24","M25","M26","M27")
 
-res = genelistOverlap(list1=M10_NPC, list2=M25_ASD, backgroundTotal =8075)
-res
+cols2use = c("OR","pval")
+result = data.frame(matrix(nrow = length(pm_mods), ncol = length(cols2use)))
+rownames(result) = pm_mods
+colnames(result) = cols2use
+
+M10_NPC = as.character(read.delim(file.path(datapath,"M10_NPC.txt"), header=FALSE)$V1)
+
+for (mod in pm_mods){
+  pm_genes = as.character(read.delim(file.path(datapath,sprintf("%s.txt",mod)),header=FALSE)$V1)
+  res = genelistOverlap(list1 = M10_NPC, list2 = pm_genes, backgroundTotal =8075, print_result = FALSE)
+  result[mod,"OR"] = res[[1]]$OR  
+  result[mod,"pval"] = res[[1]]$hypergeo_p
+}
+result$fdrq = p.adjust(result$pval, method = "fdr")
+kable(result)
+result["M25",]
 ```
