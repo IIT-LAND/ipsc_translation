@@ -366,13 +366,11 @@ summary {
 </div>
 
 
-<div id="gene-expression-decoding-analysis" class="section level1">
-<h1>Gene expression decoding analysis</h1>
+<p>Load in libraries and functions to use in later analysis.</p>
 <pre class="r"><code>easypackages::libraries(&quot;here&quot;,&quot;knitr&quot;)
 code_dir = here(&quot;code&quot;)
 datapath = here(&quot;data&quot;)
 source(file.path(code_dir,&quot;genelistOverlap.R&quot;))
-
 
 genelistOverlap &lt;- function(list1,list2,backgroundTotal, print_result = TRUE, header = FALSE) {
 # genelistOverlap
@@ -472,10 +470,9 @@ genelistOverlap &lt;- function(list1,list2,backgroundTotal, print_result = TRUE,
       print(sprintf(&quot;OR = %f, p = %f&quot;,OR,hypergeo_p))
     }
     return(result)
-} # function genelistOverlap 
-
-
-backgroundTotal = 8075
+} # function genelistOverlap </code></pre>
+<p>Examine how M10-NPC overlaps with co-expression modules from Lombardo et al., (2017). Hierarchical cortical transcriptome disorganization in autism. Molecular Autism, 8(1), 29.</p>
+<pre class="r"><code>backgroundTotal = 8075
 pm_mods = c(&quot;M1&quot;,&quot;M2&quot;,&quot;M3&quot;,&quot;M4&quot;,&quot;M5&quot;,&quot;M6&quot;,&quot;M7&quot;,&quot;M8&quot;,&quot;M9&quot;,&quot;M10&quot;,
             &quot;M11&quot;,&quot;M12&quot;,&quot;M13&quot;,&quot;M14&quot;,&quot;M15&quot;,&quot;M16&quot;,&quot;M17&quot;,&quot;M18&quot;,&quot;M19&quot;,&quot;M20&quot;,
             &quot;M21&quot;,&quot;M22&quot;,&quot;M23&quot;,&quot;M24&quot;,&quot;M25&quot;,&quot;M26&quot;,&quot;M27&quot;)
@@ -672,7 +669,39 @@ kable(result)</code></pre>
 <pre class="r"><code>result[&quot;M25&quot;,]</code></pre>
 <pre><code>##           OR         pval         fdrq
 ## M25 15.52981 1.240735e-14 3.349985e-13</code></pre>
-</div>
+<pre class="r"><code># show the overlapping genes between M25 and M10_NPC
+M25 = as.character(read.delim(file.path(datapath,&quot;M25.txt&quot;),header=FALSE)$V1)
+res = genelistOverlap(list1 = M10_NPC, list2 = M25, backgroundTotal =8075, print_result = FALSE)
+res[[1]]$overlapping_genes</code></pre>
+<pre><code>##  [1] &quot;RPL31&quot;  &quot;RPL18A&quot; &quot;RPL19&quot;  &quot;RPS13&quot;  &quot;RWDD1&quot;  &quot;RPS12&quot;  &quot;EEF1B2&quot; &quot;RPS15&quot; 
+##  [9] &quot;RPL21&quot;  &quot;RPL23&quot;  &quot;RPS15A&quot; &quot;RPS2&quot;   &quot;SNRPG&quot;  &quot;RPS3&quot;   &quot;RPL27A&quot; &quot;RPL12&quot; 
+## [17] &quot;RPL23A&quot; &quot;RPL10A&quot; &quot;RPL39&quot;</code></pre>
+<p>Examine how the Griesi-Oliveira et al., M10-NPC co-expression module overlaps with the autism-upregulated geneM15 co-expression module from Gandal et al., (2018). Transcriptome-wide isoform-level dysregulation in ASD, schizophrenia, and bipolar disorder. Science, 362(6420), eaat8127.</p>
+<pre class="r"><code># overlap between M10_NPC and the autism-upregulated geneM15 co-expression module from Gandal et al., 2018, Science
+geneM15 = as.character(read.delim(file.path(datapath,&quot;geneM15.txt&quot;), header=FALSE)$V1)
+res = genelistOverlap(list1 = M10_NPC, list2 = geneM15, backgroundTotal =8075, print_result = FALSE)
+print(sprintf(&quot;OR = %s, p = %s&quot;,res[[1]]$OR,res[[1]]$hypergeo_p))</code></pre>
+<pre><code>## [1] &quot;OR = 19.1076555023923, p = 3.26547333407158e-34&quot;</code></pre>
+<pre class="r"><code>res[[1]]$overlapping_genes</code></pre>
+<pre><code>##  [1] &quot;RPL26L1&quot; &quot;RPL31&quot;   &quot;RPL6&quot;    &quot;RPL3&quot;    &quot;RPL18A&quot;  &quot;RPL19&quot;   &quot;RPL34&quot;  
+##  [8] &quot;RPS13&quot;   &quot;RPS12&quot;   &quot;RPL24&quot;   &quot;EEF1B2&quot;  &quot;RPS15&quot;   &quot;RPL22&quot;   &quot;RPS25&quot;  
+## [15] &quot;RPL21&quot;   &quot;RPL5&quot;    &quot;RPL23&quot;   &quot;RPS15A&quot;  &quot;RPL35&quot;   &quot;RPLP1&quot;   &quot;RPL13A&quot; 
+## [22] &quot;RPS8&quot;    &quot;RPS27A&quot;  &quot;SNRPG&quot;   &quot;RPL32&quot;   &quot;RPS3A&quot;   &quot;RPL10&quot;   &quot;RPL7&quot;   
+## [29] &quot;RPL7A&quot;   &quot;RPS3&quot;    &quot;RPL29&quot;   &quot;RPL27A&quot;  &quot;RPL13&quot;   &quot;RPSA&quot;    &quot;RPS7&quot;   
+## [36] &quot;RPL4&quot;    &quot;RPS27&quot;   &quot;RPL14&quot;   &quot;RPL12&quot;   &quot;RPL23A&quot;  &quot;RPL10A&quot;  &quot;RPL39&quot;  
+## [43] &quot;RPL41&quot;   &quot;RPS18&quot;</code></pre>
+<p>Overlap between Lombardo et al., M25 co-expression module and the autism-upregulated geneM15 co-expression module from Gandal et al., (2018).</p>
+<pre class="r"><code># overlap M25 from Lombardo et al., and geneM15 from Gandal et al., 2018, Science
+M25 = as.character(read.delim(file.path(datapath,&quot;M25.txt&quot;),header=FALSE)$V1)
+res = genelistOverlap(list1 = M25, list2 = geneM15, backgroundTotal =8075, print_result = FALSE)
+print(sprintf(&quot;OR = %s, p = %s&quot;,res[[1]]$OR,res[[1]]$hypergeo_p))</code></pre>
+<pre><code>## [1] &quot;OR = 140.276595744681, p = 1.09263234479455e-54&quot;</code></pre>
+<pre class="r"><code>res[[1]]$overlapping_genes</code></pre>
+<pre><code>##  [1] &quot;ATOX1&quot;  &quot;ATP5G2&quot; &quot;COMMD6&quot; &quot;EEF1B2&quot; &quot;FAU&quot;    &quot;MYL6&quot;   &quot;PFDN5&quot;  &quot;POLR2I&quot;
+##  [9] &quot;RPL10A&quot; &quot;RPL12&quot;  &quot;RPL18A&quot; &quot;RPL19&quot;  &quot;RPL21&quot;  &quot;RPL23&quot;  &quot;RPL23A&quot; &quot;RPL26&quot; 
+## [17] &quot;RPL27A&quot; &quot;RPL30&quot;  &quot;RPL31&quot;  &quot;RPL35A&quot; &quot;RPL36&quot;  &quot;RPL37A&quot; &quot;RPL39&quot;  &quot;RPL8&quot;  
+## [25] &quot;RPS11&quot;  &quot;RPS12&quot;  &quot;RPS13&quot;  &quot;RPS14&quot;  &quot;RPS15&quot;  &quot;RPS15A&quot; &quot;RPS20&quot;  &quot;RPS3&quot;  
+## [33] &quot;RPS4X&quot;  &quot;RPS5&quot;   &quot;RPS9&quot;   &quot;SNRPG&quot;  &quot;UBA52&quot;  &quot;UXT&quot;</code></pre>
 
 
 

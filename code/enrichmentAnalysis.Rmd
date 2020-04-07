@@ -3,14 +3,13 @@ title: "Enrichment analysis"
 output: html_document
 ---
 
-# Gene expression decoding analysis
+Load in libraries and functions to use in later analysis.
 
 ```{r, warning=FALSE, message=FALSE}
 easypackages::libraries("here","knitr")
 code_dir = here("code")
 datapath = here("data")
 source(file.path(code_dir,"genelistOverlap.R"))
-
 
 genelistOverlap <- function(list1,list2,backgroundTotal, print_result = TRUE, header = FALSE) {
 # genelistOverlap
@@ -111,8 +110,11 @@ genelistOverlap <- function(list1,list2,backgroundTotal, print_result = TRUE, he
 	}
 	return(result)
 } # function genelistOverlap 
+```
 
+Examine how M10-NPC overlaps with co-expression modules from Lombardo et al., (2017). Hierarchical cortical transcriptome disorganization in autism. Molecular Autism, 8(1), 29.
 
+```{r, warning=FALSE, message=FALSE}
 backgroundTotal = 8075
 pm_mods = c("M1","M2","M3","M4","M5","M6","M7","M8","M9","M10",
             "M11","M12","M13","M14","M15","M16","M17","M18","M19","M20",
@@ -134,4 +136,29 @@ for (mod in pm_mods){
 result$fdrq = p.adjust(result$pval, method = "fdr")
 kable(result)
 result["M25",]
+
+# show the overlapping genes between M25 and M10_NPC
+M25 = as.character(read.delim(file.path(datapath,"M25.txt"),header=FALSE)$V1)
+res = genelistOverlap(list1 = M10_NPC, list2 = M25, backgroundTotal =8075, print_result = FALSE)
+res[[1]]$overlapping_genes
+```
+
+Examine how the Griesi-Oliveira et al., M10-NPC co-expression module overlaps with the autism-upregulated geneM15 co-expression module from Gandal et al., (2018). Transcriptome-wide isoform-level dysregulation in ASD, schizophrenia, and bipolar disorder. Science, 362(6420), eaat8127.
+
+```{r, warning=FALSE, message=FALSE}
+# overlap between M10_NPC and the autism-upregulated geneM15 co-expression module from Gandal et al., 2018, Science
+geneM15 = as.character(read.delim(file.path(datapath,"geneM15.txt"), header=FALSE)$V1)
+res = genelistOverlap(list1 = M10_NPC, list2 = geneM15, backgroundTotal =8075, print_result = FALSE)
+print(sprintf("OR = %s, p = %s",res[[1]]$OR,res[[1]]$hypergeo_p))
+res[[1]]$overlapping_genes
+```
+
+Overlap between Lombardo et al., M25 co-expression module and the autism-upregulated geneM15 co-expression module from Gandal et al., (2018).
+
+```{r, warning=FALSE, message=FALSE}
+# overlap M25 from Lombardo et al., and geneM15 from Gandal et al., 2018, Science
+M25 = as.character(read.delim(file.path(datapath,"M25.txt"),header=FALSE)$V1)
+res = genelistOverlap(list1 = M25, list2 = geneM15, backgroundTotal =8075, print_result = FALSE)
+print(sprintf("OR = %s, p = %s",res[[1]]$OR,res[[1]]$hypergeo_p))
+res[[1]]$overlapping_genes
 ```
