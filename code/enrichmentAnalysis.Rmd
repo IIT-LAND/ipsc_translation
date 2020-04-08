@@ -9,6 +9,7 @@ Load in libraries and functions to use in later analysis.
 easypackages::libraries("here","knitr")
 code_dir = here("code")
 datapath = here("data")
+resultpath = here("results")
 source(file.path(code_dir,"genelistOverlap.R"))
 
 genelistOverlap <- function(list1,list2,backgroundTotal, print_result = TRUE, header = FALSE) {
@@ -23,7 +24,6 @@ genelistOverlap <- function(list1,list2,backgroundTotal, print_result = TRUE, he
 #					 assuming each list has a header.
 #	backgroundTotal = specify number of genes in background pool
 #
-# mvlombardo 21.12.2016
 
 	# Read in libraries and set options
 	options(stringsAsFactors = FALSE)
@@ -140,6 +140,7 @@ result["M25",]
 # show the overlapping genes between M25 and M10_NPC
 M25 = as.character(read.delim(file.path(datapath,"M25.txt"),header=FALSE)$V1)
 res = genelistOverlap(list1 = M10_NPC, list2 = M25, backgroundTotal =8075, print_result = FALSE)
+write(res[[1]]$overlapping_genes, file = file.path(resultpath,"M10_NPC_M25_overlap.txt"))
 res[[1]]$overlapping_genes
 ```
 
@@ -150,6 +151,7 @@ Examine how the Griesi-Oliveira et al., M10-NPC co-expression module overlaps wi
 geneM15 = as.character(read.delim(file.path(datapath,"geneM15.txt"), header=FALSE)$V1)
 res = genelistOverlap(list1 = M10_NPC, list2 = geneM15, backgroundTotal =8075, print_result = FALSE)
 print(sprintf("OR = %s, p = %s",res[[1]]$OR,res[[1]]$hypergeo_p))
+write(res[[1]]$overlapping_genes, file = file.path(resultpath,"M10_NPC_geneM15_overlap.txt"))
 res[[1]]$overlapping_genes
 ```
 
@@ -160,5 +162,17 @@ Overlap between Lombardo et al., M25 co-expression module and the autism-upregul
 M25 = as.character(read.delim(file.path(datapath,"M25.txt"),header=FALSE)$V1)
 res = genelistOverlap(list1 = M25, list2 = geneM15, backgroundTotal =8075, print_result = FALSE)
 print(sprintf("OR = %s, p = %s",res[[1]]$OR,res[[1]]$hypergeo_p))
+write(res[[1]]$overlapping_genes, file = file.path(resultpath,"M25_geneM15_overlap.txt"))
 res[[1]]$overlapping_genes
 ```
+
+Take the gene sets (M10_NPC, M25, geneM15) as well as the overlap between M10_NPC and M25 or geneM15, and input them into STRING (https://string-db.org/). This will give us a visualization of the gene sets and the overlapping gene sets. For this analysis we used all the default settings in STRING (see below). For the M10_NPC, M25, and geneM15 gene sets, we highlighted the ribosomal proteins in red, as indicated by the UniProt enrichment for "Ribosomal protein" (KW-0689).
+
+```{r string_settings, out.width = "85%", fig.cap = " ", echo=FALSE}
+knitr::include_graphics(file.path(here("figures","STRINGsettings.png")))
+```
+
+```{r fig01, out.width = "85%", fig.cap = " ", echo=FALSE}
+knitr::include_graphics(file.path(here("figures","Fig01.jpg")))
+```
+
